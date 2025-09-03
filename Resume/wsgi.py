@@ -7,10 +7,14 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/
 """
 
+import sys
 import os
 
+path = '/home/username/Resume'  # مسیر پروژه در PythonAnywhere
+if path not in sys.path:
+    sys.path.append(path)
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'Resume.settings'  # نام پروژه Django
+
 from django.core.wsgi import get_wsgi_application
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Resume.settings')
-
 application = get_wsgi_application()
