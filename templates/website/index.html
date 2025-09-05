@@ -30,6 +30,7 @@
         <li><a href="#home" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
         <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
         <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
+        <li><a href="#languages"><i class="bi bi-globe navicon"></i>Languages</a></li>
         <li><a href="#projects"><i class="bi bi-hdd-stack navicon"></i> Projects</a></li>
         <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Contact</a></li>
       </ul>
@@ -74,18 +75,18 @@
             <div class="row">
               <div class="col-lg-6">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>8 April 1999</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>www.example.com</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+98 913 123 1234</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Esfahan, Iran</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>{{ Birthday }}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>{{ Website }}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>{{ Phone }}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>{{ City }}</span></li>
                 </ul>
               </div>
               <div class="col-lg-6">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>26</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>B.Sc. in Mechanical Engineering</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>example@gmail.com</span></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>{{ Age }}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>{{ Degree }}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>{{ Email }}</span></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>{{ Freelance }}</span></li>
                 </ul>
               </div>
             </div>
@@ -213,6 +214,45 @@
       </div>
 
     </section><!-- /Resume Section -->
+
+   <!-- Languages Section -->
+<section id="languages" class="languages section light-background">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Languages</h2>
+    <p>My proficiency in different languages:</p>
+  </div><!-- End Section Title -->
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+    <div class="row languages-content">
+
+      <div class="col-lg-6">
+        <div class="language-item mb-3">
+          <strong>Persian</strong>
+          <span class="stars">
+            ★★★★★
+          </span>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="language-item mb-3">
+          <strong>English</strong>
+          <span class="stars">
+            ★★★☆☆
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- /Languages Section -->
+
+
 
     <!-- Projects Section -->
     <section id="projects" class="projects section">
