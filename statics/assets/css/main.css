@@ -1295,3 +1295,61 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+
+/* Navigation Links در فوتر */
+.footer .col-md-4 ul li a {
+    display: inline-block;
+    position: relative;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* افکت خط زیر لینک */
+.footer .col-md-4 ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0%;
+    background: #7cbfff; /* رنگ آبی کم‌رنگ */
+    transition: width 0.3s ease;
+}
+
+.footer .col-md-4 ul li a:hover {
+    color: #7cbfff; /* تغییر رنگ هنگام هاور */
+}
+
+.footer .col-md-4 ul li a:hover::after {
+    width: 100%; /* خط زیر لینک کامل شود */
+}
+
+/* Social Links آیکون‌ها */
+.footer .social-links a {
+    font-size: 1.3rem;
+    color: #ffffff;
+    display: inline-block;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer .social-links a:hover {
+    color: #7cbfff;
+    transform: scale(1.2);
+}
+
+.footer .social-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px; /* کمی پایین‌تر از آیکون */
+    width: 0%;
+    height: 2px;
+    background: #7cbfff;
+    transition: width 0.3s ease;
+}
+
+.footer .social-links a:hover::after {
+    width: 100%;
+}
