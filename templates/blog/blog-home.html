@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="blog-page">
+
+  {% include 'blog/header.html' %}
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-title">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-3 mb-lg-0" data-aos="fade-right">Blog</h1>
+        <nav class="breadcrumbs" data-aos="fade-left">
+          <ol>
+            <li><a href="{% url 'website:index' %}">Home</a></li>
+            <li class="current">Blog</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <!-- Blog Posts Column -->
+          <div class="col-lg-8">
+
+            <div class="row gy-4 posts-list">
+
+              <!-- Post 1 -->
+              <div class="col-12" data-aos="fade-up" data-aos-delay="100">
+                <article class="post-item">
+
+                  <div class="post-img">
+                    <img src="https://via.placeholder.com/800x350/0563bb/ffffff?text=Django+Guide" alt="Getting Started with Django" class="img-fluid">
+                  </div>
+
+                  <div class="post-content">
+
+                    <div class="meta-top">
+                      <ul>
+                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">Mahdi Iranpour</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2025-09-15">Sep 15, 2025</time></a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">342 Views</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">12 Comments</a></li>
+                      </ul>
+                    </div>
+
+                    <h2 class="title">
+                      <a href="#">Getting Started with Django: A Beginner's Guide</a>
+                    </h2>
+
+                    <p class="content-preview">
+                      Django is a high-level Python web framework that enables rapid development of secure and maintainable websites. In this comprehensive guide, we'll explore the basics of Django and how to set up your first project...
+                    </p>
+
+                    <div class="meta-bottom">
+                      <ul>
+                        <li><i class="bi bi-folder"></i> <a href="#">Web Development</a></li>
+                      </ul>
+                    </div>
+
+                    <div class="read-more mt-3">
+                      <a href="#" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
+                    </div>
+
+                  </div>
+
+                </article>
+              </div>
+
+              <!-- Post 2 -->
+              <div class="col-12" data-aos="fade-up" data-aos-delay="200">
+                <article class="post-item">
+
+                  <div class="post-img">
+                    <img src="https://via.placeholder.com/800x350/034c94/ffffff?text=Python+Best+Practices" alt="Python Best Practices" class="img-fluid">
+                  </div>
+
+                  <div class="post-content">
+
+                    <div class="meta-top">
+                      <ul>
+                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">Mahdi Iranpour</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2025-09-10">Sep 10, 2025</time></a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">289 Views</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">8 Comments</a></li>
+                      </ul>
+                    </div>
+
+                    <h2 class="title">
+                      <a href="#">Python Best Practices for Clean Code</a>
+                    </h2>
+
+                    <p class="content-preview">
+                      Writing clean, maintainable Python code is essential for any developer. This article covers best practices including PEP 8 guidelines, proper naming conventions, and effective code organization techniques that will improve your coding skills...
+                    </p>
+
+                    <div class="meta-bottom">
+                      <ul>
+                        <li><i class="bi bi-folder"></i> <a href="#">Programming</a></li>
+                      </ul>
+                    </div>
+
+                    <div class="read-more mt-3">
+                      <a href="#" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
+                    </div>
+
+                  </div>
+
+                </article>
+              </div>
+
+              <!-- Post 3 -->
+              <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+                <article class="post-item">
+
+                  <div class="post-img">
+                    <img src="https://via.placeholder.com/800x350/0563bb/ffffff?text=REST+APIs" alt="Building REST APIs" class="img-fluid">
+                  </div>
+
+                  <div class="post-content">
+
+                    <div class="meta-top">
+                      <ul>
+                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">Mahdi Iranpour</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2025-09-05">Sep 05, 2025</time></a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">421 Views</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">15 Comments</a></li>
+                      </ul>
+                    </div>
+
+                    <h2 class="title">
+                      <a href="#">Building REST APIs with Django Rest Framework</a>
+                    </h2>
+
+                    <p class="content-preview">
+                      Learn how to build powerful REST APIs using Django Rest Framework. We'll cover serializers, viewsets, authentication, and permissions to create a complete API backend for your applications. Perfect for backend developers...
+                    </p>
+
+                    <div class="meta-bottom">
+                      <ul>
+                        <li><i class="bi bi-folder"></i> <a href="#">Backend</a></li>
+                      </ul>
+                    </div>
+
+                    <div class="read-more mt-3">
+                      <a href="#" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
+                    </div>
+
+                  </div>
+
+                </article>
+              </div>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination d-flex justify-content-center mt-5" data-aos="fade-up">
+              <ul>
+                <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
+                <li><a href="#" class="active">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
+              </ul>
+            </div>
+            <!-- End Pagination -->
+
+          </div><!-- End Blog Posts Column -->
+
+          <!-- Sidebar Column -->
+          <div class="col-lg-4 sidebar">
+
+            <!-- Search Widget -->
+            <div class="sidebar-item search-form" data-aos="fade-left" data-aos-delay="100">
+              <h3 class="sidebar-title">Search</h3>
+              <form action="" method="get" class="mt-3">
+                <input type="text" name="search" placeholder="Search posts...">
+                <button type="submit"><i class="bi bi-search"></i></button>
+              </form>
+            </div><!-- End Search Widget -->
+
+            <!-- Categories Widget -->
+            <div class="sidebar-item categories" data-aos="fade-left" data-aos-delay="200">
+              <h3 class="sidebar-title">Categories</h3>
+              <ul class="mt-3">
+                <li><a href="#">Web Development <span>12</span></a></li>
+                <li><a href="#">Programming <span>8</span></a></li>
+                <li><a href="#">Backend <span>15</span></a></li>
+                <li><a href="#">Frontend <span>6</span></a></li>
+                <li><a href="#">Tutorial <span>20</span></a></li>
+              </ul>
+            </div><!-- End Categories Widget -->
+
+            <!-- Recent Posts Widget -->
+            <div class="sidebar-item recent-posts" data-aos="fade-left" data-aos-delay="300">
+              <h3 class="sidebar-title">Recent Posts</h3>
+              <div class="mt-3">
+                <div class="post-item">
+                  <img src="https://via.placeholder.com/80/0563bb/ffffff?text=1" alt="Recent Post 1" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="#">Understanding Django Models</a></h4>
+                    <time datetime="2025-09-20">Sep 20, 2025</time>
+                  </div>
+                </div>
+
+                <div class="post-item">
+                  <img src="https://via.placeholder.com/80/034c94/ffffff?text=2" alt="Recent Post 2" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="#">CSS Grid vs Flexbox</a></h4>
+                    <time datetime="2025-09-18">Sep 18, 2025</time>
+                  </div>
+                </div>
+
+                <div class="post-item">
+                  <img src="https://via.placeholder.com/80/0563bb/ffffff?text=3" alt="Recent Post 3" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="#">Deploying Django Apps</a></h4>
+                    <time datetime="2025-09-16">Sep 16, 2025</time>
+                  </div>
+                </div>
+
+                <div class="post-item">
+                  <img src="https://via.placeholder.com/80/034c94/ffffff?text=4" alt="Recent Post 4" class="flex-shrink-0">
+                  <div>
+                    <h4><a href="#">JavaScript ES6 Features</a></h4>
+                    <time datetime="2025-09-14">Sep 14, 2025</time>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Recent Posts Widget -->
+
+            <!-- Tags Widget -->
+            <div class="sidebar-item tags" data-aos="fade-left" data-aos-delay="400">
+              <h3 class="sidebar-title">Tags</h3>
+              <ul class="mt-3">
+                <li><a href="#">Django</a></li>
+                <li><a href="#">Python</a></li>
+                <li><a href="#">Web Development</a></li>
+                <li><a href="#">Programming</a></li>
+                <li><a href="#">Backend</a></li>
+                <li><a href="#">Tutorial</a></li>
+                <li><a href="#">Frontend</a></li>
+                <li><a href="#">CSS</a></li>
+              </ul>
+            </div><!-- End Tags Widget -->
+
+          </div><!-- End Sidebar Column -->
+
+        </div>
+
+      </div>
+
+    </section><!-- End Blog Section -->
+
+  </main>
+
+</div>
+{% endblock %}
