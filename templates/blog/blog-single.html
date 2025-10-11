@@ -1,126 +1,126 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load blog_tags %}
+{% load humanize %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/single.css' %}" />
+{% endblock %}
 {% block content %}
 
 <div class="blog-single-page">
-
-{% include 'blog/header.html' %}
+  {% include 'blog/header.html' %}
 
   <main class="main">
-
     <!-- Page Header -->
     <div class="page-header">
       <div class="container">
         <nav class="breadcrumb-nav" data-aos="fade-up">
           <ol>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Blog</a></li>
-            <li>Post Title Here</li>
+            <li><a href="{% url 'website:index' %}">Home</a></li>
+            <li><a href="{% url 'blog:blog-home' %}">Blog</a></li>
+            <li class="current">{{ post.title }}</li>
           </ol>
         </nav>
       </div>
-    </div><!-- End Page Header -->
+    </div>
+    <!-- End Page Header -->
 
     <!-- Blog Single Section -->
     <section class="blog-single section">
       <div class="container">
         <div class="row">
-
           <!-- Main Content -->
           <div class="col-lg-8">
-
             <!-- Post Content -->
             <article class="post-single-content" data-aos="fade-up">
-              
               <div class="post-featured-image">
-                <img src="https://via.placeholder.com/1200x500/0563bb/ffffff?text=Featured+Image" alt="Post Title" class="img-fluid">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid" />
               </div>
 
               <div class="post-meta-info">
                 <div class="meta-item">
                   <i class="bi bi-person"></i>
-                  <a href="#">Mahdi Iranpour</a>
+                  <a href="#">{{ post.author.get_full_name }}</a>
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-calendar"></i>
-                  <span>Oct 11, 2025</span>
+                  <span>{{ post.published_date | date:"d M Y" }}</span>
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-eye"></i>
-                  <span>342 Views</span>
+                  <span>{{ post.counted_views }} Views</span>
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-chat-dots"></i>
-                  <a href="#comments">12 Comments</a>
+                  <a href="#comments">{{ comments|length }} Comments</a>
                 </div>
               </div>
 
               <div class="post-body">
-                
                 <div class="post-categories">
-                  <a href="#" class="category-badge">Web Development</a>
-                  <a href="#" class="category-badge">Django</a>
+                  {% for cat in post.category.all %}
+                  <a href="{% url 'blog:category' cat_name=cat.name %}" class="category-badge">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
                 </div>
 
-                <h1 class="post-title">Getting Started with Django: A Complete Beginner's Guide</h1>
+                <h1 class="post-title">{{ post.title }}</h1>
 
-                <div class="post-content">
-                  <p>Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel.</p>
-
-                  <p>In this comprehensive guide, we'll walk through everything you need to know to get started with Django, from installation to building your first web application.</p>
-
-                  <h2>What is Django?</h2>
-                  <p>Django is a free and open-source web framework written in Python that follows the model-template-views (MTV) architectural pattern. It's maintained by the Django Software Foundation and has been used to build some of the world's most popular websites.</p>
-
-                  <h3>Key Features of Django</h3>
-                  <p>Django comes with a lot of built-in features that make web development easier and faster. Some of the key features include:</p>
-                  <ul>
-                    <li>Object-Relational Mapping (ORM)</li>
-                    <li>Automatic admin interface</li>
-                    <li>URL routing</li>
-                    <li>Template engine</li>
-                    <li>Form handling</li>
-                    <li>Authentication system</li>
-                  </ul>
-
-                  <p>These features allow developers to build secure and maintainable websites quickly without having to write everything from scratch.</p>
-                </div>
+                <div class="post-content">{{ post.content|safe }}</div>
 
                 <div class="social-share">
-                  <h5>Share this post:</h5>
-                  <div class="social-links">
-                    <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
-                    <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <a href="#" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-                  </div>
-                </div>
+  <h5>Share this post:</h5>
+  <div class="social-links d-flex gap-2">
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" title="Share on Facebook">
+      <i class="bi bi-facebook"></i>
+    </a>
+
+    <!-- Twitter -->
+    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" title="Share on Twitter">
+      <i class="bi bi-twitter"></i>
+    </a>
+
+    <!-- LinkedIn -->
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" title="Share on LinkedIn">
+      <i class="bi bi-linkedin"></i>
+    </a>
+
+    <!-- WhatsApp -->
+    <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.build_absolute_uri }}" target="_blank" title="Share on WhatsApp">
+      <i class="bi bi-whatsapp"></i>
+    </a>
+  </div>
+</div>
 
               </div>
-
             </article>
 
             <!-- Post Navigation -->
             <div class="post-navigation" data-aos="fade-up">
-              <a href="#" class="nav-post prev">
+              {% if prev_post %}
+              <a href="{% url 'blog:single' pid=prev_post.id %}" class="nav-post prev">
                 <div class="nav-post-thumb">
-                  <img src="https://via.placeholder.com/100/034c94/ffffff?text=Prev" alt="Previous Post">
+                  <img src="{{ prev_post.image.url }}" alt="Previous Post" />
                 </div>
                 <div class="nav-post-info">
                   <h6>← Previous Post</h6>
-                  <h4>Python Best Practices for Clean Code</h4>
+                  <h4>{{ prev_post.title }}</h4>
                 </div>
               </a>
+              {% endif %}
 
-              <a href="#" class="nav-post next">
+              {% if next_post %}
+              <a href="{% url 'blog:single' pid=next_post.id %}" class="nav-post next">
                 <div class="nav-post-thumb">
-                  <img src="https://via.placeholder.com/100/0563bb/ffffff?text=Next" alt="Next Post">
+                  <img src="{{ next_post.image.url }}" alt="Next Post" />
                 </div>
                 <div class="nav-post-info">
                   <h6>Next Post →</h6>
-                  <h4>Building REST APIs with Django</h4>
+                  <h4>{{ next_post.title }}</h4>
                 </div>
               </a>
+              {% endif %}
             </div>
 
             <!-- Comments Section -->
@@ -135,7 +135,9 @@
                     <span class="comment-date">2 hours ago</span>
                   </div>
                 </div>
-                <p class="comment-text">Great article! Very helpful for beginners like me. Looking forward to more Django tutorials.</p>
+                <p class="comment-text">
+                  Great article! Very helpful for beginners like me. Looking forward to more Django tutorials.
+                </p>
               </div>
 
               <div class="comment-item">
@@ -146,7 +148,9 @@
                     <span class="comment-date">5 hours ago</span>
                   </div>
                 </div>
-                <p class="comment-text">Thanks for sharing this comprehensive guide. The explanations are clear and easy to follow.</p>
+                <p class="comment-text">
+                  Thanks for sharing this comprehensive guide. The explanations are clear and easy to follow.
+                </p>
               </div>
 
               <div class="comment-item">
@@ -157,9 +161,10 @@
                     <span class="comment-date">1 day ago</span>
                   </div>
                 </div>
-                <p class="comment-text">Excellent post! Could you write more about Django REST Framework in your next article?</p>
+                <p class="comment-text">
+                  Excellent post! Could you write more about Django REST Framework in your next article?
+                </p>
               </div>
-
             </div>
 
             <!-- Comment Form -->
@@ -169,15 +174,15 @@
               <form method="post" class="comment-form">
                 <div class="row mb-3">
                   <div class="col-md-6 mb-3 mb-md-0">
-                    <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" required />
                   </div>
                   <div class="col-md-6">
-                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required />
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required />
                 </div>
 
                 <div class="mb-4">
@@ -187,25 +192,26 @@
                 <button type="submit" class="submit-btn">Post Comment</button>
               </form>
             </div>
-
-          </div><!-- End Main Content -->
+          </div>
+          <!-- End Main Content -->
 
           <!-- Sidebar -->
           <div class="col-lg-4 sidebar">
-
             <!-- Author Widget -->
             <div class="sidebar-widget author-widget" data-aos="fade-left" data-aos-delay="100">
               <h3 class="widget-title">About Author</h3>
-              <img src="https://via.placeholder.com/100/0563bb/ffffff?text=MI" alt="Author" class="author-avatar img-fluid">
+              <img src="https://via.placeholder.com/100/0563bb/ffffff?text=MI" alt="Author" class="author-avatar img-fluid" />
               <h4 class="author-name">Mahdi Iranpour</h4>
-              <p class="author-bio">Passionate web developer and blogger sharing knowledge about Django, Python, and web development.</p>
+              <p class="author-bio">
+                Passionate web developer and blogger sharing knowledge about Django, Python, and web development.
+              </p>
             </div>
 
             <!-- Search Widget -->
             <div class="sidebar-widget search-widget" data-aos="fade-left" data-aos-delay="200">
               <h3 class="widget-title">Search</h3>
               <form>
-                <input type="text" name="search" placeholder="Search posts...">
+                <input type="text" name="search" placeholder="Search posts..." />
                 <button type="submit"><i class="bi bi-search"></i></button>
               </form>
             </div>
@@ -213,9 +219,9 @@
             <!-- Recent Posts Widget -->
             <div class="sidebar-widget" data-aos="fade-left" data-aos-delay="300">
               <h3 class="widget-title">Recent Posts</h3>
-              
+
               <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/0563bb/ffffff?text=1" alt="Post 1">
+                <img src="https://via.placeholder.com/80/0563bb/ffffff?text=1" alt="Post 1" />
                 <div>
                   <h4>Understanding Django Models</h4>
                   <time>Sep 20, 2025</time>
@@ -223,7 +229,7 @@
               </a>
 
               <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/034c94/ffffff?text=2" alt="Post 2">
+                <img src="https://via.placeholder.com/80/034c94/ffffff?text=2" alt="Post 2" />
                 <div>
                   <h4>CSS Grid vs Flexbox</h4>
                   <time>Sep 18, 2025</time>
@@ -231,7 +237,7 @@
               </a>
 
               <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/0563bb/ffffff?text=3" alt="Post 3">
+                <img src="https://via.placeholder.com/80/0563bb/ffffff?text=3" alt="Post 3" />
                 <div>
                   <h4>Deploying Django Apps</h4>
                   <time>Sep 16, 2025</time>
@@ -239,7 +245,7 @@
               </a>
 
               <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/034c94/ffffff?text=4" alt="Post 4">
+                <img src="https://via.placeholder.com/80/034c94/ffffff?text=4" alt="Post 4" />
                 <div>
                   <h4>JavaScript ES6 Features</h4>
                   <time>Sep 14, 2025</time>
@@ -273,14 +279,12 @@
                 <li><a href="#">CSS</a></li>
               </ul>
             </div>
-
-          </div><!-- End Sidebar -->
-
+          </div>
+          <!-- End Sidebar -->
         </div>
       </div>
-    </section><!-- End Blog Single Section -->
-
+    </section>
+    <!-- End Blog Single Section -->
   </main>
-
 </div>
 {% endblock %}
