@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load blog_tags %}
+{% load excerpt_tags %}
 {% block content %}
-
 <div class="blog-page">
 
   {% include 'blog/header.html' %}
@@ -36,140 +37,65 @@
               <!-- Post 1 -->
               <div class="col-12" data-aos="fade-up" data-aos-delay="100">
                 <article class="post-item">
-
+                  {% for post in posts %}
                   <div class="post-img">
-                    <img src="https://via.placeholder.com/800x350/0563bb/ffffff?text=Django+Guide" alt="Getting Started with Django" class="img-fluid">
+                    <img src="{{post.image.url}}" href="{% url 'blog:single' pid=post.id %}" alt="Getting Started with Django" class="img-fluid">
                   </div>
-
                   <div class="post-content">
 
                     <div class="meta-top">
+
                       <ul>
-                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">Mahdi Iranpour</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2025-09-15">Sep 15, 2025</time></a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">342 Views</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">12 Comments</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ post.author.get_full_name }}</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#">{{ post.published_date|date:'d M Y' }}</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">{{ post.counted_views }} Views</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="{% url 'blog:single' pid=post.id %}">{% comments_count post.id %} Comments</a></li>
                       </ul>
                     </div>
 
                     <h2 class="title">
-                      <a href="#">Getting Started with Django: A Beginner's Guide</a>
+                      <a href="{% url 'blog:single' pid=post.id %}">{{ post.title }}</a>
                     </h2>
 
                     <p class="content-preview">
-                      Django is a high-level Python web framework that enables rapid development of secure and maintainable websites. In this comprehensive guide, we'll explore the basics of Django and how to set up your first project...
+                      {{ post.content|excerpt:60|safe }}
                     </p>
 
                     <div class="meta-bottom">
                       <ul>
-                        <li><i class="bi bi-folder"></i> <a href="#">Web Development</a></li>
+                        {% for cat in post.category.all %}
+                        <li><i class="bi bi-folder"></i> <a href="{% url 'blog:category' cat_name=cat.name %}">{{ cat.name }}</a>{%  if not forloop.last %}, {% endif %}</li>
+                        {% endfor %}
                       </ul>
                     </div>
 
                     <div class="read-more mt-3">
-                      <a href="#" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
+                      <a href="{% url 'blog:single' pid=post.id %}" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
                     </div>
-
                   </div>
-
+                  {% empty %}
+                  <p>No content available.</p>
+                  {% endfor %}
                 </article>
               </div>
-
-              <!-- Post 2 -->
-              <div class="col-12" data-aos="fade-up" data-aos-delay="200">
-                <article class="post-item">
-
-                  <div class="post-img">
-                    <img src="https://via.placeholder.com/800x350/034c94/ffffff?text=Python+Best+Practices" alt="Python Best Practices" class="img-fluid">
-                  </div>
-
-                  <div class="post-content">
-
-                    <div class="meta-top">
-                      <ul>
-                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">Mahdi Iranpour</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2025-09-10">Sep 10, 2025</time></a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">289 Views</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">8 Comments</a></li>
-                      </ul>
-                    </div>
-
-                    <h2 class="title">
-                      <a href="#">Python Best Practices for Clean Code</a>
-                    </h2>
-
-                    <p class="content-preview">
-                      Writing clean, maintainable Python code is essential for any developer. This article covers best practices including PEP 8 guidelines, proper naming conventions, and effective code organization techniques that will improve your coding skills...
-                    </p>
-
-                    <div class="meta-bottom">
-                      <ul>
-                        <li><i class="bi bi-folder"></i> <a href="#">Programming</a></li>
-                      </ul>
-                    </div>
-
-                    <div class="read-more mt-3">
-                      <a href="#" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
-                    </div>
-
-                  </div>
-
-                </article>
-              </div>
-
-              <!-- Post 3 -->
-              <div class="col-12" data-aos="fade-up" data-aos-delay="300">
-                <article class="post-item">
-
-                  <div class="post-img">
-                    <img src="https://via.placeholder.com/800x350/0563bb/ffffff?text=REST+APIs" alt="Building REST APIs" class="img-fluid">
-                  </div>
-
-                  <div class="post-content">
-
-                    <div class="meta-top">
-                      <ul>
-                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">Mahdi Iranpour</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#"><time datetime="2025-09-05">Sep 05, 2025</time></a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">421 Views</a></li>
-                        <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="#">15 Comments</a></li>
-                      </ul>
-                    </div>
-
-                    <h2 class="title">
-                      <a href="#">Building REST APIs with Django Rest Framework</a>
-                    </h2>
-
-                    <p class="content-preview">
-                      Learn how to build powerful REST APIs using Django Rest Framework. We'll cover serializers, viewsets, authentication, and permissions to create a complete API backend for your applications. Perfect for backend developers...
-                    </p>
-
-                    <div class="meta-bottom">
-                      <ul>
-                        <li><i class="bi bi-folder"></i> <a href="#">Backend</a></li>
-                      </ul>
-                    </div>
-
-                    <div class="read-more mt-3">
-                      <a href="#" class="btn btn-primary">Read More <i class="bi bi-arrow-right ms-2"></i></a>
-                    </div>
-
-                  </div>
-
-                </article>
-              </div>
-
             </div>
 
             <!-- Pagination -->
             <div class="pagination d-flex justify-content-center mt-5" data-aos="fade-up">
               <ul>
-                <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
-                <li><a href="#" class="active">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
+                {% if posts.has_previous %}
+                <li><a href="?page={{ posts.previous_page_number }}"><i class="bi bi-chevron-left"></i></a></li>
+                {% endif %}
+                {% for i in posts.paginator.page_range %}
+                {% if posts.number == i %}
+                <li><a href="?page={{ i }}" class="active">{{ i }}</a></li>
+                {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if posts.has_next %}
+                <li><a href="?page={{ posts.next_page_number }}"><i class="bi bi-chevron-right"></i></a></li>
+                {% endif %}
               </ul>
             </div>
             <!-- End Pagination -->
