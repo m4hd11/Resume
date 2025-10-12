@@ -1,0 +1,34 @@
+{% load static %}
+<a
+  class="sidebar-widget author-widget"
+  data-aos="fade-left"
+  data-aos-delay="100"
+>
+  <h3 class="widget-title">About Author</h3>
+  {% if author and author.profile and author.profile.avatar %}
+  <img
+    src="{{ author.profile.avatar.url }}"
+    alt="{{ author.get_full_name|default:author.username }}"
+    class="author-avatar img-fluid"
+  />
+    {% else %}
+    <img
+    src="{% static 'img/user-info.png' %}"
+    alt="{{ author.get_full_name|default:'Unknown Author' }}"
+    class="author-avatar img-fluid"
+  />
+  {% endif %}
+
+  {% if author %}
+<a href="{% url 'blog:author' author_username=author.username %}"></a>
+  <h4 class="author-name">{{ author.first_name|default:author.username }} {{ author.last_name }}</h4>
+</a>
+  {% else %}
+    <h4 class="author-name">Unknown Author</h4>
+    {% endif %}
+
+  <p class="author-bio">
+    Passionate web developer and blogger sharing knowledge about Django, Python,
+    and web development.
+  </p>
+</div>

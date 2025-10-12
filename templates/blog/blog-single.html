@@ -139,32 +139,6 @@
                   Great article! Very helpful for beginners like me. Looking forward to more Django tutorials.
                 </p>
               </div>
-
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">S</div>
-                  <div class="comment-meta">
-                    <h5>Sara Mohammadi</h5>
-                    <span class="comment-date">5 hours ago</span>
-                  </div>
-                </div>
-                <p class="comment-text">
-                  Thanks for sharing this comprehensive guide. The explanations are clear and easy to follow.
-                </p>
-              </div>
-
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">R</div>
-                  <div class="comment-meta">
-                    <h5>Reza Karimi</h5>
-                    <span class="comment-date">1 day ago</span>
-                  </div>
-                </div>
-                <p class="comment-text">
-                  Excellent post! Could you write more about Django REST Framework in your next article?
-                </p>
-              </div>
             </div>
 
             <!-- Comment Form -->
@@ -197,88 +171,23 @@
 
           <!-- Sidebar -->
           <div class="col-lg-4 sidebar">
+            <div class="sidebar-item search-form" data-aos="fade-left" data-aos-delay="100">
+
             <!-- Author Widget -->
-            <div class="sidebar-widget author-widget" data-aos="fade-left" data-aos-delay="100">
-              <h3 class="widget-title">About Author</h3>
-              <img src="https://via.placeholder.com/100/0563bb/ffffff?text=MI" alt="Author" class="author-avatar img-fluid" />
-              <h4 class="author-name">Mahdi Iranpour</h4>
-              <p class="author-bio">
-                Passionate web developer and blogger sharing knowledge about Django, Python, and web development.
-              </p>
-            </div>
+            {% include 'blog/blog-writer.html' %}
 
             <!-- Search Widget -->
-            <div class="sidebar-widget search-widget" data-aos="fade-left" data-aos-delay="200">
-              <h3 class="widget-title">Search</h3>
-              <form>
-                <input type="text" name="search" placeholder="Search posts..." />
-                <button type="submit"><i class="bi bi-search"></i></button>
-              </form>
-            </div>
+            {% include 'blog/blog-search.html' %}
 
             <!-- Recent Posts Widget -->
-            <div class="sidebar-widget" data-aos="fade-left" data-aos-delay="300">
-              <h3 class="widget-title">Recent Posts</h3>
-
-              <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/0563bb/ffffff?text=1" alt="Post 1" />
-                <div>
-                  <h4>Understanding Django Models</h4>
-                  <time>Sep 20, 2025</time>
-                </div>
-              </a>
-
-              <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/034c94/ffffff?text=2" alt="Post 2" />
-                <div>
-                  <h4>CSS Grid vs Flexbox</h4>
-                  <time>Sep 18, 2025</time>
-                </div>
-              </a>
-
-              <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/0563bb/ffffff?text=3" alt="Post 3" />
-                <div>
-                  <h4>Deploying Django Apps</h4>
-                  <time>Sep 16, 2025</time>
-                </div>
-              </a>
-
-              <a href="#" class="recent-post-item">
-                <img src="https://via.placeholder.com/80/034c94/ffffff?text=4" alt="Post 4" />
-                <div>
-                  <h4>JavaScript ES6 Features</h4>
-                  <time>Sep 14, 2025</time>
-                </div>
-              </a>
-            </div>
+            {% include 'blog/blog-recent-posts.html' %}
 
             <!-- Categories Widget -->
-            <div class="sidebar-widget categories-widget" data-aos="fade-left" data-aos-delay="400">
-              <h3 class="widget-title">Categories</h3>
-              <ul>
-                <li><a href="#">Web Development <span>12</span></a></li>
-                <li><a href="#">Programming <span>8</span></a></li>
-                <li><a href="#">Backend <span>15</span></a></li>
-                <li><a href="#">Frontend <span>6</span></a></li>
-                <li><a href="#">Tutorial <span>20</span></a></li>
-              </ul>
-            </div>
+            {% include 'blog/blog-post-categories.html' %}
 
             <!-- Tags Widget -->
-            <div class="sidebar-widget tags-widget" data-aos="fade-left" data-aos-delay="500">
-              <h3 class="widget-title">Tags</h3>
-              <ul>
-                <li><a href="#">Django</a></li>
-                <li><a href="#">Python</a></li>
-                <li><a href="#">Web Development</a></li>
-                <li><a href="#">Programming</a></li>
-                <li><a href="#">Backend</a></li>
-                <li><a href="#">Tutorial</a></li>
-                <li><a href="#">Frontend</a></li>
-                <li><a href="#">CSS</a></li>
-              </ul>
-            </div>
+            {% include 'blog/blog-tags.html' %}
+          </div>
           </div>
           <!-- End Sidebar -->
         </div>

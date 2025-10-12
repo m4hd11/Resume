@@ -85,3 +85,20 @@ def blog_single(request, pid):
         'author': post.author,  # نویسنده همان پست
     }
     return render(request, 'blog/blog-single.html', context)
+
+
+def blog_search(request):
+    
+    # posts = Post.objects.filter(status=1)
+    # if request.method == 'GET':
+    #     posts = posts.filter(content__contains=request.GET.get('s'))
+    
+    posts = Post.objects.filter(status=1)
+    if request.method == 'GET':
+        if s := request.GET.get('s'):
+            posts = posts.filter(content__icontains=s)
+
+    context = {
+        'posts': posts
+    }
+    return render(request, 'blog/blog-home.html', context)
