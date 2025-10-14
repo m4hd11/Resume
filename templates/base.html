@@ -6,8 +6,6 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Mahdi Iranpour</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
 
   <!-- Favicons -->
   <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
@@ -16,74 +14,124 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
 
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
-
-  <title>{% block title %}My Site{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
-  {% block extra_css %}{% endblock %}
-
-  <!-- =======================================================
-  * Template Name: iPortfolio
-  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
-  * Updated: Jun 29 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
+
 <body>
 
-{% block content %}
+<!-- Fixed Auth Buttons -->
+<div id="auth-buttons">
+  {% if request.user.is_authenticated %}
+    <button class="btn btn-loggedin" disabled>{{ request.user.username }}</button>
+    <a href="{% url 'accounts:logout' %}" class="btn btn-logout">Logout</a>
+  {% else %}
+    <a href="{% url 'accounts:login' %}" class="btn btn-login">Login</a>
+    <a href="{% url 'accounts:signup' %}" class="btn btn-signup">Sign Up</a>
+  {% endif %}
+</div>
 
-{% endblock %}
+<style>
+#auth-buttons {
+  position: fixed !important; /* همیشه ثابت */
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
- <footer id="footer" class="footer position-relative light-background">
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  #auth-buttons {
+    flex-direction: column;
+    align-items: flex-end;
+    top: 10px;
+    right: 10px;
+  }
+  #auth-buttons .btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+}
 
-    <div class="container">
-      <div class="copyright text-center ">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">Mahdi Iranpour</strong> <span>All Rights Reserved</span></p>
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a>
-      </div>
+/* Button styles */
+#auth-buttons .btn {
+  font-weight: 500;
+  border-radius: 30px;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Login */
+.btn-login {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  border: none;
+}
+.btn-login:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
+
+/* Sign Up */
+.btn-signup {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: white;
+  border: none;
+}
+.btn-signup:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
+
+/* Logout */
+.btn-logout {
+  background: linear-gradient(135deg, #f85032, #e73827);
+  color: white;
+  border: none;
+}
+.btn-logout:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
+
+/* Logged in */
+.btn-loggedin {
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  color: white;
+  cursor: default;
+  pointer-events: none;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+</style>
+
+
+
+{% block content %}{% endblock %}
+
+<footer id="footer" class="footer position-relative light-background">
+  <div class="container">
+    <div class="copyright text-center">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Mahdi Iranpour</strong> <span>All Rights Reserved</span></p>
     </div>
+    <div class="credits">
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a>
+    </div>
+  </div>
+</footer>
 
-  </footer>
-
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader"></div>
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
 
 <!-- Vendor JS Files -->
-  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
-  <script src="{% static 'assets/vendor/typed.js/typed.umd.js' %}"></script>
-  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
-  <script src="{% static 'assets/vendor/waypoints/noframework.waypoints.js' %}"></script>
-  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
 
-  <!-- Main JS File -->
-  <script src="{% static 'assets/js/main.js' %}"></script>
+<!-- Main JS File -->
+<script src="{% static 'assets/js/main.js' %}"></script>
 
 </body>
-
 </html>

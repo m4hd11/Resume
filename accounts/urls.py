@@ -3,6 +3,8 @@ from .views import login_View, logout_View, signup_View
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 from .forms import CustomPasswordResetForm
+from django.contrib.auth.decorators import login_required
+
 
 app_name = 'accounts'
 
@@ -23,10 +25,10 @@ urlpatterns = [
         name='password_reset'
     ),
     path(
-        'password_reset/done/',
-        auth_views.PasswordResetDoneView.as_view(
+        'reset/done/',
+        login_required(auth_views.PasswordResetDoneView.as_view(
             template_name='accounts/password_reset_done.html'
-        ),
+        )),
         name='password_reset_done'
     ),
     path(
@@ -39,9 +41,9 @@ urlpatterns = [
     ),
     path(
         'reset/done/',
-        auth_views.PasswordResetCompleteView.as_view(
+        login_required(auth_views.PasswordResetCompleteView.as_view(
             template_name='accounts/password_reset_complete.html'
-        ),
+        )),
         name='password_reset_complete'
     ),
 ]
