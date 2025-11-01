@@ -1135,6 +1135,7 @@ section,
   color: var(--default-color);
   background-color: var(--surface-color);
   border-color: color-mix(in srgb, var(--default-color), transparent 80%);
+  
 }
 
 .contact .php-email-form input[type=text]:focus,
@@ -1813,6 +1814,49 @@ section,
   }
 
   
+
+<style>
+#popup-messages {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.popup-message {
+  padding: 15px 30px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  min-width: 250px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  animation: fadeInOut 4s forwards;
+}
+.popup-message.success { background-color: #28a745; }
+.popup-message.error, .popup-message.danger { background-color: #dc3545; }
+.popup-message.info { background-color: #17a2b8; }
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+</style>
+
+<script>
+setTimeout(() => {
+  const popups = document.querySelectorAll('.popup-message');
+  popups.forEach(p => p.remove());
+}, 4000);
+</script>
+
+
+
+  
 /* .auth-buttons {
   z-index: 9999;
 }
@@ -1827,3 +1871,7 @@ section,
 .auth-buttons .btn:hover {
   transform: translateY(-2px);
 } */
+
+/* کوچک کردن CAPTCHA */
+
+

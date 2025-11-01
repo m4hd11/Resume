@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
     'django_summernote',
     'taggit',
+    'widget_tweaks',
     'django.contrib.humanize',
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
@@ -141,3 +143,11 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SECURE_SSL_REDIRECT = False
+
+# Make CAPTCHA case-insensitive
+CAPTCHA_TEST_MODE = False  # فقط برای تست False بماند
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+CAPTCHA_FONT_SIZE = 32
+CAPTCHA_LETTER_ROTATION = None
+CAPTCHA_OUTPUT_FORMAT = '%(image)s %(hidden_field)s %(text_field)s'
+CAPTCHA_CASE_INSENSITIVE = True  # این خط مهم است

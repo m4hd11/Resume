@@ -1,0 +1,157 @@
+{% load static %}
+<!-- Popup Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="form-popup {% if message.tags == 'success' %}success-popup{% else %}error-popup{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- Contact Section -->
+<section id="contact" class="contact section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Contact</h2>
+    <p>I’m always open to connecting with fellow developers and exploring opportunities to learn and grow. Feel free to reach out to me via email or through my social profiles—I’d be happy to hear from you!</p>
+  </div>
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4">
+
+      <!-- Info Column -->
+      <div class="col-lg-5">
+        <div class="info-wrap">
+          <div class="info-item d-flex mb-3" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-geo-alt flex-shrink-0"></i>
+            <div>
+              <h3>Address</h3>
+              <p>Esfahan, Iran</p>
+            </div>
+          </div>
+          <div class="info-item d-flex mb-3" data-aos="fade-up" data-aos-delay="300">
+            <i class="bi bi-telephone flex-shrink-0"></i>
+            <div>
+              <h3>Call Us</h3>
+              <p>+98 913 123 1234</p>
+            </div>
+          </div>
+          <div class="info-item d-flex mb-3" data-aos="fade-up" data-aos-delay="400">
+            <i class="bi bi-envelope flex-shrink-0"></i>
+            <div>
+              <h3>Email Us</h3>
+              <p>example@gmail.com</p>
+            </div>
+          </div>
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus"
+            frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+
+      <!-- Form Column -->
+      <div class="full-form col-lg-7">
+        <form action="{% url 'website:index' %}" method="post" class="contact-form" data-aos="fade-up" data-aos-delay="200">
+          {% csrf_token %}
+          
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="name-field" class="form-label">Your Name</label>
+              <input type="text" name="name" id="name-field" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="email-field" class="form-label">Your Email</label>
+              <input type="email" name="email" id="email-field" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <label for="subject-field" class="form-label">Subject</label>
+              <input type="text" name="subject" id="subject-field" class="form-control">
+            </div>
+            <div class="col-12">
+              <label for="message-field" class="form-label">Message</label>
+              <textarea name="message" id="message-field" rows="5" class="form-control" required></textarea>
+            </div>
+
+            <div class="col-12 captcha-wrapper mt-3">
+              {{ form.captcha }}
+            </div>
+
+            <div class="col-12 text-center mt-4">
+              <button type="submit" class="btn btn-submit">Send Message</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Popup Messages -->
+{% if success %}
+<div class="form-popup success-popup">Your message was sent successfully!</div>
+{% endif %}
+{% if form.errors %}
+<div class="form-popup error-popup">Please correct the errors in the form.</div>
+{% endif %}
+
+<!-- CSS -->
+<style>
+/* دکمه ارسال آبی و گرد */
+
+.full-form {
+  background-color: var(--surface-color);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+/* کوچک کردن CAPTCHA */
+.captcha-wrapper {
+    display: inline-block;
+    transform: scale(0.8);
+    transform-origin: top left;
+    margin-top: 0.5rem;
+}
+
+/* Popup Messages */
+.form-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    animation: fadeInOut 4s forwards;
+}
+
+.success-popup { background-color: #38ef7d; }
+.error-popup { background-color: #f85032; }
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -20px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+</style>
