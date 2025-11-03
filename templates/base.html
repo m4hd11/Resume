@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Mahdi Iranpour</title>
+  <title>{% block title %}Mahdi Iranpour{% endblock %}</title>
 
   <!-- Favicons -->
   <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
@@ -22,6 +22,13 @@
 
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <!-- ✅ Extra page-specific CSS -->
+  {% block extra_css %}{% endblock %}
+
+  <!-- AOS -->
+<link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -115,9 +122,9 @@
     <div class="copyright text-center">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">Mahdi Iranpour</strong> <span>All Rights Reserved</span></p>
     </div>
-    <div class="credits">
+    <!-- <div class="credits">
       Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a>
-    </div>
+    </div> -->
   </div>
 </footer>
 
@@ -133,8 +140,7 @@
 <!-- Main JS File -->
 <script src="{% static 'assets/js/main.js' %}"></script>
 
-<!-- AOS -->
-<link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
 <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
 
 <!-- Typed.js -->
@@ -168,8 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-
 
 </body>
 </html>

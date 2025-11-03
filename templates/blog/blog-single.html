@@ -6,6 +6,7 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'assets/css/single.css' %}" />
 {% endblock %}
+
 {% block content %}
 
 <div class="blog-single-page">
@@ -41,7 +42,7 @@
               <div class="post-meta-info">
                 <div class="meta-item">
                   <i class="bi bi-person"></i>
-                  <a href="#">{{ post.author.get_full_name }}</a>
+                  <a href="#">{{ post.author.get_full_name|default:post.author.username }}</a>
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-calendar"></i>
@@ -180,10 +181,10 @@
             {% include 'blog/blog-search.html' %}
 
             <!-- Recent Posts Widget -->
-            {% include 'blog/blog-recent-posts.html' %}
+            {% latestblog 5 %}
 
             <!-- Categories Widget -->
-            {% include 'blog/blog-post-categories.html' %}
+            {% postcategories %}
 
             <!-- Tags Widget -->
             {% include 'blog/blog-tags.html' %}

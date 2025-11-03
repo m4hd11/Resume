@@ -48,3 +48,6 @@ def contact_view(request):
     else:
         form = ContactForm()
     return render(request, 'website/contact.html', {'form':form})
+
+def coming_soon(request, exception=None):
+    return render(request, "coming_soon.html", status=404)

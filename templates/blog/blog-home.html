@@ -46,7 +46,7 @@
                     <div class="meta-top">
 
                       <ul>
-                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ post.author.get_full_name }}</a></li>
+                        <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="#">{{ post.author.get_full_name|default:post.author.username }}</a></li>
                         <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="#">{{ post.published_date|date:'d M Y' }}</a></li>
                         <li class="d-flex align-items-center"><i class="bi bi-eye"></i> <a href="#">{{ post.counted_views }} Views</a></li>
                         <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="{% url 'blog:single' pid=post.id %}">{% comments_count post.id %} Comments</a></li>
@@ -106,9 +106,8 @@
           <div class="col-lg-4 sidebar">
 
             {% include 'blog/blog-search.html' %}
-            {% include 'blog/blog-post-categories.html' %}
-            {% include 'blog/blog-recent-posts.html' %}
-            {% include 'blog/blog-tags.html' %}
+            {% latestblog 5 %}
+            {% postcategories %}
             
           </div><!-- End Sidebar Column -->
 
