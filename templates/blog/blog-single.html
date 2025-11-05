@@ -70,29 +70,29 @@
                 <div class="post-content">{{ post.content|safe }}</div>
 
                 <div class="social-share">
-  <h5>Share this post:</h5>
-  <div class="social-links d-flex gap-2">
-    <!-- Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" title="Share on Facebook">
-      <i class="bi bi-facebook"></i>
-    </a>
+                  <h5>Share this post:</h5>
+                  <div class="social-links d-flex gap-2">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" title="Share on Facebook">
+                      <i class="bi bi-facebook"></i>
+                    </a>
 
-    <!-- Twitter -->
-    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" title="Share on Twitter">
-      <i class="bi bi-twitter"></i>
-    </a>
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" title="Share on Twitter">
+                      <i class="bi bi-twitter"></i>
+                    </a>
 
-    <!-- LinkedIn -->
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" title="Share on LinkedIn">
-      <i class="bi bi-linkedin"></i>
-    </a>
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" title="Share on LinkedIn">
+                      <i class="bi bi-linkedin"></i>
+                    </a>
 
-    <!-- WhatsApp -->
-    <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.build_absolute_uri }}" target="_blank" title="Share on WhatsApp">
-      <i class="bi bi-whatsapp"></i>
-    </a>
-  </div>
-</div>
+                    <!-- WhatsApp -->
+                    <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.build_absolute_uri }}" target="_blank" title="Share on WhatsApp">
+                      <i class="bi bi-whatsapp"></i>
+                    </a>
+                  </div>
+                </div>
 
               </div>
             </article>
@@ -124,36 +124,47 @@
               {% endif %}
             </div>
 
-            <!-- Comments Section -->
+            <!-- ✅ Comments Section (Fixed) -->
             <div class="comments-section" id="comments" data-aos="fade-up">
-              <h3 class="section-title">12 Comments</h3>
+              <h3 class="section-title">{{ comments|length }} Comments</h3>
 
+              {% for comment in comments %}
               <div class="comment-item">
                 <div class="comment-header">
-                  <div class="comment-avatar">A</div>
+                  <div class="comment-avatar">
+                    <img src="{% static 'assets/img/c5.jpg' %}" alt="User Avatar" />
+                  </div>
                   <div class="comment-meta">
-                    <h5>Ahmad Rezaei</h5>
-                    <span class="comment-date">2 hours ago</span>
+                    <h5>{{ comment.name }}</h5>
+                    <span class="comment-date">{{ comment.created_date|naturaltime }}</span>
                   </div>
                 </div>
                 <p class="comment-text">
-                  Great article! Very helpful for beginners like me. Looking forward to more Django tutorials.
+                  {{ comment.message }}
                 </p>
               </div>
+              {% empty %}
+              <p>No comments yet. Be the first to comment!</p>
+              {% endfor %}
             </div>
 
-            <!-- Comment Form -->
+            <!-- ✅ Comment Form (Fixed) -->
             <div class="comment-form-section" data-aos="fade-up">
               <h3 class="section-title">Leave a Comment</h3>
-
-              <form method="post" class="comment-form">
+              <form method="post" action="{% url 'blog:single' pid=post.id %}" class="comment-form">
+                {% csrf_token %}
                 <div class="row mb-3">
-                  <div class="col-md-6 mb-3 mb-md-0">
-                    <input type="text" class="form-control" name="name" placeholder="Your Name" required />
-                  </div>
-                  <div class="col-md-6">
-                    <input type="email" class="form-control" name="email" placeholder="Your Email" required />
-                  </div>
+                  {% if request.user.is_authenticated %}
+                    <input type="hidden" name="name" value="{{ request.user.username }}">
+                    <input type="hidden" name="email" value="{{ request.user.email }}">
+                  {% else %}
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <input type="text" class="form-control" name="name" placeholder="Your Name" required />
+                    </div>
+                    <div class="col-md-6">
+                      <input type="email" class="form-control" name="email" placeholder="Your Email" required />
+                    </div>
+                  {% endif %}
                 </div>
 
                 <div class="mb-3">
