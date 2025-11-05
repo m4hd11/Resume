@@ -23,11 +23,14 @@
   <!-- Main CSS File -->
   <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
 
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
   <!-- ✅ Extra page-specific CSS -->
   {% block extra_css %}{% endblock %}
 
   <!-- AOS -->
-<link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
 
 </head>
 
@@ -46,7 +49,7 @@
 
 <style>
 #auth-buttons {
-  position: fixed !important; /* همیشه ثابت */
+  position: fixed !important;
   top: 20px;
   right: 20px;
   z-index: 9999;
@@ -77,43 +80,27 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
 }
-
-/* Login */
 .btn-login {
   background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: white;
-  border: none;
+  color: white; border: none;
 }
 .btn-login:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
-
-/* Sign Up */
 .btn-signup {
   background: linear-gradient(135deg, #43e97b, #38f9d7);
-  color: white;
-  border: none;
+  color: white; border: none;
 }
 .btn-signup:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
-
-/* Logout */
 .btn-logout {
   background: linear-gradient(135deg, #f85032, #e73827);
-  color: white;
-  border: none;
+  color: white; border: none;
 }
 .btn-logout:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
-
-/* Logged in */
 .btn-loggedin {
   background: linear-gradient(135deg, #11998e, #38ef7d);
-  color: white;
-  cursor: default;
-  pointer-events: none;
-  border: none;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  color: white; cursor: default; pointer-events: none;
+  border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 </style>
-
-
 
 {% block content %}{% endblock %}
 
@@ -122,9 +109,6 @@
     <div class="copyright text-center">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">Mahdi Iranpour</strong> <span>All Rights Reserved</span></p>
     </div>
-    <!-- <div class="credits">
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a>
-    </div> -->
   </div>
 </footer>
 
@@ -140,11 +124,14 @@
 <!-- Main JS File -->
 <script src="{% static 'assets/js/main.js' %}"></script>
 
-
 <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
 
 <!-- Typed.js -->
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // AOS initialization
@@ -172,6 +159,47 @@ document.addEventListener('DOMContentLoaded', function() {
             bar.style.width = value + '%';
         }, 500);
     });
+
+    // Swiper initialization for Latest Blog Posts
+    const latestPostSwiper = new Swiper(".mySwiper", {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 20,
+        grabCursor: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            576: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            992: { slidesPerView: 3 },
+            1200: { slidesPerView: 3 },
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        }
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var carousel = document.querySelector('#latestPostsCarousel');
+  var indicators = document.querySelectorAll('#customIndicators .custom-indicator');
+
+  carousel.addEventListener('slide.bs.carousel', function (event) {
+    // همه active ها رو پاک می‌کنیم
+    indicators.forEach(function(ind) {
+      ind.classList.remove('active');
+    });
+    // فعال کردن ایندیکیتور فعلی
+    indicators[event.to].classList.add('active');
+  });
 });
 </script>
 

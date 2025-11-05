@@ -1,0 +1,92 @@
+{% load static %}
+{% load blog_tags %}
+{% load excerpt_tags %}
+
+<section id="latest-posts" class="latest-posts section light-background py-5">
+  <div class="container" data-aos="fade-up">
+
+    <!-- Section Title -->
+    <div class="row mb-4 text-center">
+      <div class="col">
+        <h2>Latest Posts</h2>
+        <p>Check out my recent blog posts and tutorials</p>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div id="latestPostsCarousel" class="carousel slide" data-bs-ride="carousel">
+
+
+
+
+      <!-- Carousel Inner -->
+      <div class="carousel-inner">
+
+        {% for post in posts %}
+          {% if forloop.first or forloop.counter0|divisibleby:3 %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <div class="row justify-content-center">
+          {% endif %}
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card latest-post-card h-100 shadow-sm">
+
+              {% if post.image %}
+                <a href="{% url 'blog:single' pid=post.id %}">
+                  <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                </a>
+              {% else %}
+                <img src="{% static 'assets/img/default.avif' %}" class="card-img-top" alt="{{ post.title }}">
+              {% endif %}
+
+              <div class="card-body d-flex flex-column">
+                <div class="post-categories mb-2">
+                  {% for cat in post.category.all %}
+                    <a href="{% url 'blog:category' cat_name=cat.name %}" class="badge bg-primary me-1 category-link">{{ cat.name }}</a>
+                  {% endfor %}
+                </div>
+                <h5 class="card-title">
+                  <a href="{% url 'blog:single' post.id %}" class="post-title-link">{{ post.title }}</a>
+                </h5>
+                <p class="card-text">{{ post.content|excerpt:30|safe }}...</p>
+                <a href="{% url 'blog:single' post.id %}" class="btn btn-primary mt-auto">Read More</a>
+              </div>
+
+              <div class="card-footer text-muted">
+                {{ post.published_date|date:"d M Y" }}
+              </div>
+            </div>
+          </div>
+
+          {% if forloop.counter|divisibleby:3 or forloop.last %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+
+      <!-- Custom Indicators زیر کاروسل -->
+<div class="text-center mt-3">
+  <div class="d-inline-block" id="customIndicators">
+    {% for i in posts|slides_count %}
+      <button type="button" class="custom-indicator {% if forloop.first %}active{% endif %}" 
+              data-bs-target="#latestPostsCarousel" data-bs-slide-to="{{ forloop.counter0 }}"></button>
+    {% endfor %}
+  </div>
+</div>
+
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#latestPostsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#latestPostsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
+    </div>
+  </div>
+</section>

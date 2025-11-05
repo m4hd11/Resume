@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load blog_tags %}
 {% load static %}
 {% block content %}
 
@@ -317,6 +318,11 @@
       </div>
 
     </section><!-- /Project Section -->
+
+   {% latestposts 6 %}
+
+
+    <!-- Contact Section --> 
 
 {% include 'website/contact.html' with form=form %}
 

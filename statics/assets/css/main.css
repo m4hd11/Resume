@@ -1875,3 +1875,53 @@ setTimeout(() => {
 /* کوچک کردن CAPTCHA */
 
 
+.latest-post-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.latest-post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.post-title-link {
+  color: #0d6efd;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.post-title-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.category-link {
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+.category-link:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+.custom-indicator {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  background-color: #ddd;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.custom-indicator.active {
+  background-color: #0d6efd; /* فقط برای اسلاید فعال */
+}
+.custom-indicator.active:hover {
+  background-color: #0056b3;
+}
+.custom-indicator:hover {
+  background-color: #0a58ca;
+}
+

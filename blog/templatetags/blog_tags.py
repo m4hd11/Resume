@@ -2,6 +2,7 @@ from django import template
 from blog.models import Post
 from blog.models import Category, Comment
 from django.utils import timezone
+import math
 
 register = template.Library()
 
@@ -23,9 +24,9 @@ def function():
 def snippet(value,arg=20):
     return value[:arg]
 
-@register.inclusion_tag('blog/blog-popular-posts.html')
+@register.inclusion_tag('blog/blog-latest-posts.html')
 def latestposts(arg=3):
-    posts = Post.objects.filter(status=1).order_by('published_date')[:arg]
+    posts = Post.objects.filter(status=1, published_date__lte=timezone.now()).order_by('-published_date')[:arg]
     return {'posts':posts}  
 
 @register.inclusion_tag('blog/blog-post-categories.html')
@@ -41,3 +42,14 @@ def postcategories():
 def latestblog(count=3):
     posts = Post.objects.filter(status=1, published_date__lte=timezone.now()).order_by('-published_date')[:count]
     return {'latest_posts': posts}
+
+
+@register.filter
+def slides_count(posts, per_slide=3):
+    """Return a range for carousel indicators based on number of posts per slide."""
+    try:
+        count = posts.count()  # اگر QuerySet باشد
+    except:
+        count = len(posts)
+    num_slides = math.ceil(count / per_slide)
+    return range(num_slides)
