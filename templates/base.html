@@ -26,182 +26,166 @@
   <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
-  <!-- ✅ Extra page-specific CSS -->
   {% block extra_css %}{% endblock %}
-
-  <!-- AOS -->
   <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
-
 </head>
 
 <body>
 
-<!-- Fixed Auth Buttons -->
-<div id="auth-buttons">
-  {% if request.user.is_authenticated %}
-    <button class="btn btn-loggedin" disabled>{{ request.user.username }}</button>
-    <a href="{% url 'accounts:logout' %}" class="btn btn-logout">Logout</a>
-  {% else %}
-    <a href="{% url 'accounts:login' %}" class="btn btn-login">Login</a>
-    <a href="{% url 'accounts:signup' %}" class="btn btn-signup">Sign Up</a>
-  {% endif %}
-</div>
+  <!-- Sidebar Header -->
+  <header id="header" class="header dark-background d-flex flex-column">
+    <i class="header-toggle d-xl-none bi bi-list"></i>
 
-<style>
-#auth-buttons {
-  position: fixed !important;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-/* Mobile adjustments */
-@media (max-width: 576px) {
-  #auth-buttons {
-    flex-direction: column;
-    align-items: flex-end;
-    top: 10px;
-    right: 10px;
-  }
-  #auth-buttons .btn {
-    font-size: 0.85rem;
-    padding: 0.4rem 1rem;
-  }
-}
-
-/* Button styles */
-#auth-buttons .btn {
-  font-weight: 500;
-  border-radius: 30px;
-  padding: 0.5rem 1.5rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-}
-.btn-login {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: white; border: none;
-}
-.btn-login:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
-.btn-signup {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
-  color: white; border: none;
-}
-.btn-signup:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
-.btn-logout {
-  background: linear-gradient(135deg, #f85032, #e73827);
-  color: white; border: none;
-}
-.btn-logout:hover { transform: translateY(-2px); box-shadow:0 6px 10px rgba(0,0,0,0.15); }
-.btn-loggedin {
-  background: linear-gradient(135deg, #11998e, #38ef7d);
-  color: white; cursor: default; pointer-events: none;
-  border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-</style>
-
-{% block content %}{% endblock %}
-
-<footer id="footer" class="footer position-relative light-background">
-  <div class="container">
-    <div class="copyright text-center">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Mahdi Iranpour</strong> <span>All Rights Reserved</span></p>
+    <div class="profile-img">
+      <img src="{% static 'assets/img/my-profile-img.jpg' %}" alt="" class="img-fluid rounded-circle">
     </div>
-  </div>
-</footer>
 
-<!-- Scroll Top -->
-<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-  <i class="bi bi-arrow-up-short"></i>
-</a>
+    <a href="{% url 'website:index' %}" class="logo d-flex align-items-center justify-content-center">
+      <h1 class="sitename">Mahdi Iranpour</h1>
+    </a>
 
-<!-- Vendor JS Files -->
-<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <!-- Social Links -->
+    <div class="social-links text-center mb-3">
+      <a href="https://www.instagram.com/mahdetail" class="instagram"><i class="bi bi-instagram"></i></a>
+      <a href="https://www.linkedin.com/in/mahdi-iranpour-031228379" class="linkedin"><i class="bi bi-linkedin"></i></a>
+    </div>
 
-<!-- Main JS File -->
-<script src="{% static 'assets/js/main.js' %}"></script>
+    <!-- ⚡ Auth Buttons -->
+    <div class="auth-pill-container text-center mb-3">
+      {% if request.user.is_authenticated %}
+        <span class="auth-pill username-pill">{{ request.user.username }}</span>
+        <a href="{% url 'accounts:logout' %}" class="auth-pill logout-pill">Logout</a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="auth-pill login-pill">Login</a>
+        <a href="{% url 'accounts:signup' %}" class="auth-pill signup-pill">Sign Up</a>
+      {% endif %}
+    </div>
 
-<script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <!-- Nav Menu -->
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="#home" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
+        <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
+        <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
+        <li><a href="#languages"><i class="bi bi-globe navicon"></i>Languages</a></li>
+        <li><a href="#projects"><i class="bi bi-hdd-stack navicon"></i> Projects</a></li>
+        <li><a href="{% url 'blog:blog-home' %}"><i class="bi bi-journal-text navicon"></i> Blog</a></li>
+        <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<!-- Typed.js -->
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  {% block content %}{% endblock %}
 
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <footer id="footer" class="footer position-relative light-background">
+    <div class="container">
+      <div class="copyright text-center">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Mahdi Iranpour</strong> <span>All Rights Reserved</span></p>
+      </div>
+    </div>
+  </footer>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // AOS initialization
-    if (typeof AOS !== 'undefined') {
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof AOS !== 'undefined') {
         AOS.init({ duration: 800, once: true });
-    }
-
-    // Typed.js initialization
-    const typedEl = document.querySelector('.typed');
-    if (typedEl) {
+      }
+      const typedEl = document.querySelector('.typed');
+      if (typedEl) {
         new Typed('.typed', {
-            strings: typedEl.getAttribute('data-typed-items').split(','),
-            typeSpeed: 100,
-            backSpeed: 50,
-            loop: true
+          strings: typedEl.getAttribute('data-typed-items').split(','),
+          typeSpeed: 100,
+          backSpeed: 50,
+          loop: true
         });
+      }
+    });
+  </script>
+
+  <style>
+    /* ========================
+       ⚡ AUTH BUTTONS (Dark Lux Style)
+    ========================= */
+    .auth-pill-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 30px;
+      padding: 3px;
+      width: fit-content;
+      margin: 0 auto 18px auto;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7), inset 0 0 8px rgba(255, 255, 255, 0.05);
     }
 
-    // Skills progress bar animation
-    const progressBars = document.querySelectorAll('.progress-bar');
-    progressBars.forEach(bar => {
-        const value = bar.getAttribute('aria-valuenow');
-        bar.style.width = '0';
-        setTimeout(() => {
-            bar.style.width = value + '%';
-        }, 500);
-    });
+    .auth-pill {
+      display: inline-block;
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      color: #ddd;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      letter-spacing: 0.5px;
+    }
 
-    // Swiper initialization for Latest Blog Posts
-    const latestPostSwiper = new Swiper(".mySwiper", {
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 20,
-        grabCursor: true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            576: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            992: { slidesPerView: 3 },
-            1200: { slidesPerView: 3 },
-        },
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        }
-    });
-});
+    .login-pill {
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+      background: linear-gradient(135deg, #175492, #0c1722);
+      box-shadow: inset 0 0 10px rgba(0, 80, 255, 0.3);
+    }
 
+    .signup-pill {
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+      background: linear-gradient(135deg, #23673e, #08150f);
+      box-shadow: inset 0 0 10px rgba(0, 180, 100, 0.3);
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
-  var carousel = document.querySelector('#latestPostsCarousel');
-  var indicators = document.querySelectorAll('#customIndicators .custom-indicator');
+    .username-pill {
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+      background: linear-gradient(135deg, #175492, #0c1722);
+      box-shadow: inset 0 0 10px rgba(0, 150, 255, 0.25);
+      pointer-events: none;
+    }
 
-  carousel.addEventListener('slide.bs.carousel', function (event) {
-    // همه active ها رو پاک می‌کنیم
-    indicators.forEach(function(ind) {
-      ind.classList.remove('active');
-    });
-    // فعال کردن ایندیکیتور فعلی
-    indicators[event.to].classList.add('active');
-  });
-});
-</script>
+    .logout-pill {
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+      background: linear-gradient(135deg, #772020, #1a0000);
+      box-shadow: inset 0 0 10px rgba(255, 60, 60, 0.3);
+    }
 
+    .auth-pill:hover {
+      transform: translateY(-2px);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(0, 180, 255, 0.2);
+      filter: brightness(1.15);
+    }
+
+    /* هماهنگی با تم */
+    #header.dark-background,
+    .navmenu {
+      background-color: #0a0a0a !important;
+    }
+
+    .auth-pill-container:hover {
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
+    }
+  </style>
 </body>
 </html>
