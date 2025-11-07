@@ -31,6 +31,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 SITE_ID = 2
 
+ROBOTS_USE_HOST = False
+ROBOTS_USE_SITEMAP = False
+
 
 # Application definition
 
@@ -42,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'robots',
     'captcha',
     'django_summernote',
     'taggit',
