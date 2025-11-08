@@ -10,6 +10,7 @@ from django.utils.http import urlencode
 
 # Create your views here.
 
+
 def blog_view(request, **kwargs):
     posts = Post.objects.filter(
         published_date__lte=timezone.now(),
@@ -39,6 +40,7 @@ def blog_view(request, **kwargs):
     }
     return render(request, 'blog/blog-home.html', context)
 
+
 def blog_single(request, pid):
     post = get_object_or_404(
         Post,
@@ -50,10 +52,12 @@ def blog_single(request, pid):
     post.counted_views += 1
     post.save(update_fields=['counted_views'])
 
-    posts_list = list(Post.objects.filter(status=1, published_date__lte=timezone.now()).order_by('-published_date'))
+    posts_list = list(Post.objects.filter(
+        status=1, published_date__lte=timezone.now()).order_by('-published_date'))
     current_index = posts_list.index(post)
     prev_post = posts_list[current_index - 1] if current_index > 0 else None
-    next_post = posts_list[current_index + 1] if current_index < len(posts_list) - 1 else None
+    next_post = posts_list[current_index +
+                           1] if current_index < len(posts_list) - 1 else None
 
     if post.login_require and not request.user.is_authenticated:
         login_url = reverse('accounts:login')
@@ -63,18 +67,39 @@ def blog_single(request, pid):
 
     comments = Comment.objects.filter(post=post, approved=True)
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+    # برای کاربران لاگین شده، name و email را از فرم حذف می‌کنیم
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST or None, initial={
+                'name': request.user.username,
+                'email': request.user.email
+            })
+        else:
+            form = CommentForm(request.POST)
+
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+
+            # مقداردهی نهایی برای کاربران لاگین شده
+            if request.user.is_authenticated:
+                comment.name = request.user.username
+                comment.email = request.user.email
+            else:
+                comment.name = form.cleaned_data['name']
+                comment.email = form.cleaned_data['email']
+
             if not comment.subject:
                 comment.subject = None
             comment.save()
-            messages.success(request, 'Your comment submitted successfully!')
+            messages.success(request, "Your comment has been submitted successfully and will be displayed after approval.")
+            return redirect(post.get_absolute_url())
         else:
+            print(form.errors)
             messages.error(request, 'Your comment did not submit!')
     else:
         form = CommentForm()
+
+
 
     context = {
         'post': post,
@@ -88,11 +113,11 @@ def blog_single(request, pid):
 
 
 def blog_search(request):
-    
+
     # posts = Post.objects.filter(status=1)
     # if request.method == 'GET':
     #     posts = posts.filter(content__contains=request.GET.get('s'))
-    
+
     posts = Post.objects.filter(status=1)
     if request.method == 'GET':
         if s := request.GET.get('s'):

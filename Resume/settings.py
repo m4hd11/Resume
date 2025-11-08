@@ -38,6 +38,7 @@ ROBOTS_USE_SITEMAP = False
 # Application definition
 
 INSTALLED_APPS = [
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'robots',
+    'debug_toolbar',
     'captcha',
     'django_summernote',
     'taggit',
@@ -57,6 +59,13 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 ]
 
+
+# captcha admin settings
+MULTI_CAPTCHA_ADMIN = {
+    'engine' : 'simple-captcha',
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -66,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'website.middleware.ComingSoonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Resume.urls'
@@ -160,3 +171,8 @@ CAPTCHA_FONT_SIZE = 32
 CAPTCHA_LETTER_ROTATION = None
 CAPTCHA_OUTPUT_FORMAT = '%(image)s %(hidden_field)s %(text_field)s'
 CAPTCHA_CASE_INSENSITIVE = True  # این خط مهم است
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

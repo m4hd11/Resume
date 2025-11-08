@@ -2,17 +2,54 @@
 {% load static %}
 {% load blog_tags %}
 {% load humanize %}
+
 {% block title %}{{ post.title }}{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'assets/css/single.css' %}" />
+<style>
+/* Popup Messages */
+.form-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    animation: fadeInOut 4s forwards;
+}
+
+.success-popup { background-color: #38ef7d; }
+.error-popup { background-color: #f85032; }
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -20px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+</style>
 {% endblock %}
 
 {% block content %}
-
 <div class="blog-single-page">
   {% include 'blog/header.html' %}
 
   <main class="main">
+
+    <!-- Popup Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="form-popup {% if message.tags == 'success' %}success-popup{% else %}error-popup{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
     <!-- Page Header -->
     <div class="page-header">
       <div class="container">
@@ -46,7 +83,7 @@
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-calendar"></i>
-                  <span>{{ post.published_date | date:"d M Y" }}</span>
+                  <span>{{ post.published_date|date:"d M Y" }}</span>
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-eye"></i>
@@ -61,114 +98,88 @@
               <div class="post-body">
                 <div class="post-categories">
                   {% for cat in post.category.all %}
-                  <a href="{% url 'blog:category' cat_name=cat.name %}" class="category-badge">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}
+                    <a href="{% url 'blog:category' cat_name=cat.name %}" class="category-badge">{{ cat.name }}</a>{% if not forloop.last %}, {% endif %}
                   {% endfor %}
                 </div>
 
                 <h1 class="post-title">{{ post.title }}</h1>
-
                 <div class="post-content">{{ post.content|safe }}</div>
 
+                <!-- Social Share -->
                 <div class="social-share">
                   <h5>Share this post:</h5>
                   <div class="social-links d-flex gap-2">
-                    <!-- Facebook -->
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" title="Share on Facebook">
-                      <i class="bi bi-facebook"></i>
-                    </a>
-
-                    <!-- Twitter -->
-                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" title="Share on Twitter">
-                      <i class="bi bi-twitter"></i>
-                    </a>
-
-                    <!-- LinkedIn -->
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" title="Share on LinkedIn">
-                      <i class="bi bi-linkedin"></i>
-                    </a>
-
-                    <!-- WhatsApp -->
-                    <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.build_absolute_uri }}" target="_blank" title="Share on WhatsApp">
-                      <i class="bi bi-whatsapp"></i>
-                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="bi bi-facebook"></i></a>
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://api.whatsapp.com/send?text={{ post.title }}%20{{ request.build_absolute_uri }}" target="_blank"><i class="bi bi-whatsapp"></i></a>
                   </div>
                 </div>
-
               </div>
             </article>
 
             <!-- Post Navigation -->
             <div class="post-navigation" data-aos="fade-up">
               {% if prev_post %}
-              <a href="{% url 'blog:single' pid=prev_post.id %}" class="nav-post prev">
-                <div class="nav-post-thumb">
-                  <img src="{{ prev_post.image.url }}" alt="Previous Post" />
-                </div>
-                <div class="nav-post-info">
-                  <h6>← Previous Post</h6>
-                  <h4>{{ prev_post.title }}</h4>
-                </div>
-              </a>
+                <a href="{% url 'blog:single' pid=prev_post.id %}" class="nav-post prev">
+                  <div class="nav-post-thumb"><img src="{{ prev_post.image.url }}" alt="Previous Post"></div>
+                  <div class="nav-post-info">
+                    <h6>← Previous Post</h6>
+                    <h4>{{ prev_post.title }}</h4>
+                  </div>
+                </a>
               {% endif %}
-
               {% if next_post %}
-              <a href="{% url 'blog:single' pid=next_post.id %}" class="nav-post next">
-                <div class="nav-post-thumb">
-                  <img src="{{ next_post.image.url }}" alt="Next Post" />
-                </div>
-                <div class="nav-post-info">
-                  <h6>Next Post →</h6>
-                  <h4>{{ next_post.title }}</h4>
-                </div>
-              </a>
+                <a href="{% url 'blog:single' pid=next_post.id %}" class="nav-post next">
+                  <div class="nav-post-thumb"><img src="{{ next_post.image.url }}" alt="Next Post"></div>
+                  <div class="nav-post-info">
+                    <h6>Next Post →</h6>
+                    <h4>{{ next_post.title }}</h4>
+                  </div>
+                </a>
               {% endif %}
             </div>
 
-            <!-- ✅ Comments Section (Fixed) -->
+            <!-- Comments Section -->
             <div class="comments-section" id="comments" data-aos="fade-up">
               <h3 class="section-title">{{ comments|length }} Comments</h3>
-
               {% for comment in comments %}
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">
-                    <img src="{% static 'assets/img/c5.jpg' %}" alt="User Avatar" />
+                <div class="comment-item">
+                  <div class="comment-header">
+                    <div class="comment-avatar">
+                      <img src="{% static 'assets/img/c5.jpg' %}" alt="User Avatar" />
+                    </div>
+                    <div class="comment-meta">
+                      <h5>{{ comment.name }}</h5>
+                      <span class="comment-date">{{ comment.created_date|naturaltime }}</span>
+                    </div>
                   </div>
-                  <div class="comment-meta">
-                    <h5>{{ comment.name }}</h5>
-                    <span class="comment-date">{{ comment.created_date|naturaltime }}</span>
-                  </div>
+                  <p class="comment-text">{{ comment.message }}</p>
                 </div>
-                <p class="comment-text">
-                  {{ comment.message }}
-                </p>
-              </div>
               {% empty %}
-              <p>No comments yet. Be the first to comment!</p>
+                <p>No comments yet. Be the first to comment!</p>
               {% endfor %}
             </div>
 
-            <!-- ✅ Comment Form (Fixed) -->
+            <!-- Comment Form -->
             <div class="comment-form-section" data-aos="fade-up">
               <h3 class="section-title">Leave a Comment</h3>
               <form method="post" action="{% url 'blog:single' pid=post.id %}" class="comment-form">
                 {% csrf_token %}
+                
+                {% if not request.user.is_authenticated %}
                 <div class="row mb-3">
-                  {% if request.user.is_authenticated %}
-                    <input type="hidden" name="name" value="{{ request.user.username }}">
-                    <input type="hidden" name="email" value="{{ request.user.email }}">
-                  {% else %}
-                    <div class="col-md-6 mb-3 mb-md-0">
-                      <input type="text" class="form-control" name="name" placeholder="Your Name" required />
-                    </div>
-                    <div class="col-md-6">
-                      <input type="email" class="form-control" name="email" placeholder="Your Email" required />
-                    </div>
-                  {% endif %}
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" required />
+                  </div>
+                  <div class="col-md-6">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required />
+                  </div>
                 </div>
+                {% endif %}
 
                 <div class="mb-3">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required />
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" />
                 </div>
 
                 <div class="mb-4">
@@ -178,34 +189,27 @@
                 <button type="submit" class="submit-btn">Post Comment</button>
               </form>
             </div>
+
           </div>
           <!-- End Main Content -->
 
           <!-- Sidebar -->
           <div class="col-lg-4 sidebar">
             <div class="sidebar-item search-form" data-aos="fade-left" data-aos-delay="100">
-
-            <!-- Author Widget -->
-            {% include 'blog/blog-writer.html' %}
-
-            <!-- Search Widget -->
-            {% include 'blog/blog-search.html' %}
-
-            <!-- Recent Posts Widget -->
-            {% latestblog 5 %}
-
-            <!-- Categories Widget -->
-            {% postcategories %}
-
-            <!-- Tags Widget -->
-            {% include 'blog/blog-tags.html' %}
-          </div>
+              {% include 'blog/blog-writer.html' %}
+              {% include 'blog/blog-search.html' %}
+              {% latestblog 5 %}
+              {% postcategories %}
+              {% include 'blog/blog-tags.html' %}
+            </div>
           </div>
           <!-- End Sidebar -->
+
         </div>
       </div>
     </section>
     <!-- End Blog Single Section -->
+
   </main>
 </div>
 {% endblock %}
