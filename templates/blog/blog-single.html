@@ -79,7 +79,7 @@
               <div class="post-meta-info">
                 <div class="meta-item">
                   <i class="bi bi-person"></i>
-                  <a href="#">{{ post.author.get_full_name|default:post.author.username }}</a>
+                  <a href="{% url 'blog:author' author_username=author.username %}">{{ post.author.get_full_name|default:post.author.username }}</a>
                 </div>
                 <div class="meta-item">
                   <i class="bi bi-calendar"></i>
