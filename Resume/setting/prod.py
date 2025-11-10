@@ -1,4 +1,6 @@
 from Resume.settings import *
+import os
+from decouple import config
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -42,3 +44,13 @@ STATICFILES_DIRS = [
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.travelistaa.ir'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True 
+EMAIL_HOST_USER = config('EMAIL_DJANGO_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_DJANGO_PASSWORD')
+DEFAULT_FROM_EMAIL = config('EMAIL_DJANGO_USER')
