@@ -14,7 +14,7 @@
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
     <h2>Contact</h2>
-    <p>I’m always open to connecting with fellow developers and exploring opportunities to learn and grow. Feel free to reach out to me via email or through my social profiles—I’d be happy to hear from you!</p>
+    <p>I'm always open to connecting with fellow developers and exploring opportunities to learn and grow. Feel free to reach out to me via email or through my social profiles—I'd be happy to hear from you!</p>
   </div>
 
   <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -100,64 +100,177 @@
 
 <!-- CSS -->
 <style>
-/* دکمه ارسال آبی و گرد */
-
-.full-form {
-  background-color: var(--surface-color);
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+/* Contact Section - با اولویت بالا برای جلوگیری از تداخل */
+.contact {
+  position: relative;
+  z-index: 10;
+  isolation: isolate;
 }
 
-  .btn-submit {
-    background: linear-gradient(135deg, #0563bb 0%, #034c94 100%);
-    border: none;
-    color: white;
-    padding: 12px 35px;
-    margin-bottom: -6px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(5, 99, 187, 0.3);
-    cursor: pointer;
-  }
+.contact .section-title h2,
+.contact .section-title p,
+.contact .info-wrap h3,
+.contact .info-wrap p,
+.contact .form-label,
+.contact .form-control,
+.contact textarea {
+  font-family: 'Roboto', sans-serif !important;
+  letter-spacing: normal !important;
+  line-height: 1.6 !important;
+}
 
-  .btn-submit:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(5, 99, 187, 0.5);
-    color: white;
-  }
+.full-form {
+  background-color: var(--surface-color, #fff);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  position: relative;
+  z-index: 11;
+}
+
+.contact-form {
+  position: relative;
+  z-index: 12;
+}
+
+.form-label {
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  color: #333 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.form-control {
+  font-size: 1rem !important;
+  padding: 0.6rem 0.75rem !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.375rem !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.form-control:focus {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  outline: 0 !important;
+}
+
+textarea.form-control {
+  min-height: 120px !important;
+  resize: vertical !important;
+}
+
+/* دکمه ارسال آبی و گرد */
+.btn-submit {
+  background: linear-gradient(135deg, #0563bb 0%, #034c94 100%);
+  border: none;
+  color: white !important;
+  padding: 12px 35px;
+  margin-bottom: -6px;
+  border-radius: 50px;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  font-family: 'Roboto', sans-serif !important;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(5, 99, 187, 0.3);
+  cursor: pointer;
+  letter-spacing: 0.5px !important;
+}
+
+.btn-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(5, 99, 187, 0.5);
+  color: white !important;
+}
 
 /* کوچک کردن CAPTCHA */
 .captcha-wrapper {
-    display: inline-block;
-    transform: scale(0.8);
-    transform-origin: top left;
-    margin-top: 0.5rem;
+  display: inline-block;
+  /*transform: scale(0.85);*/
+  transform-origin: top left;
+  margin-top: 0.5rem;
+}
+
+/* Info Items */
+.info-item {
+  align-items: flex-start;
+}
+
+.info-item i {
+  font-size: 1.5rem;
+  color: #0d6efd;
+  margin-right: 1rem;
+  margin-top: 0.25rem;
+}
+
+.info-item h3 {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.25rem !important;
+  color: #333 !important;
+}
+
+.info-item p {
+  font-size: 0.95rem !important;
+  color: #666 !important;
+  margin: 0 !important;
 }
 
 /* Popup Messages */
 .form-popup {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    color: white;
-    font-weight: 500;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    animation: fadeInOut 4s forwards;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 1rem !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  animation: fadeInOut 4s forwards;
 }
 
-.success-popup { background-color: #38ef7d; }
-.error-popup { background-color: #f85032; }
+.success-popup { 
+  background-color: #38ef7d;
+}
+
+.error-popup { 
+  background-color: #f85032;
+}
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, -20px); }
-    10% { opacity: 1; transform: translate(-50%, 0); }
-    90% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
+  0% { opacity: 0; transform: translate(-50%, -20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .full-form {
+    padding: 20px;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .form-label {
+    font-size: 0.9rem !important;
+  }
+  
+  .form-control {
+    font-size: 0.95rem !important;
+    padding: 0.5rem 0.65rem !important;
+  }
+  
+  .btn-submit {
+    padding: 10px 30px;
+    font-size: 0.95rem !important;
+  }
+  
+  .captcha-wrapper {
+    transform: scale(0.75);
+  }
 }
 </style>

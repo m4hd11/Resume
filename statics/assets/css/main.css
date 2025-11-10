@@ -227,28 +227,45 @@ h6 {
   left: 0;
 }
 
+/* --------------------------------------------------------------
+# Header Toggle (fixed, safe-area compatible)
+-------------------------------------------------------------- */
 .header .header-toggle {
-  color: var(--contrast-color);
-  background-color: var(--accent-color);
-  font-size: 22px;
+  position: fixed; /* مستقل از header */
+  top: calc(env(safe-area-inset-top, 0px) + 20px); /* پایین‌تر از نوار URL در آیفون */
+  right: 20px;
+  z-index: 20000 !important; /* بالاتر از تمام عناصر */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  font-size: 22px;
   cursor: pointer;
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 9999;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .header .header-toggle:hover {
-  color: var(--contrast-color);
-  background-color: color-mix(in srgb, var(--accent-color) 90%, white 15%);
+  background-color: color-mix(in srgb, var(--accent-color) 85%, white 15%);
+  transform: scale(1.05);
 }
+
+/* در گوشی‌های کوچک‌تر کمی پایین‌تر بیاد */
+@media (max-width: 480px) {
+  .header .header-toggle {
+    top: calc(env(safe-area-inset-top, 0px) + 28px);
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+}
+
+
 
 /*--------------------------------------------------------------
 # Navigation Menu
@@ -1924,4 +1941,5 @@ setTimeout(() => {
 .custom-indicator:hover {
   background-color: #0a58ca;
 }
+
 

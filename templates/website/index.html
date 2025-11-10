@@ -12,7 +12,7 @@
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
         <h2>Mahdi Iranpour</h2>
-        <p>I'm <span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer">Designer</span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span><span class="typed-cursor typed-cursor--blink" aria-hidden="true"></span></p>
+        <p>I'm <span id="typed-text"></span></p>
       </div>
 
     </section><!-- /Home Section -->
@@ -290,4 +290,143 @@
 {% include 'website/contact.html' with form=form %}
 
   </main>
+
+<style>
+html {
+  scroll-behavior: auto;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* جلوگیری از پرش صفحه */
+.main {
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Typed effect styling - سفید با border-bottom آبی پویا */
+#typed-text {
+  color: #ffffff;
+  font-weight: 600;
+  display: inline-block;
+  border-bottom: 3px solid #149ddd;
+  padding-bottom: 3px;
+}
+
+#typed-text::after {
+  content: '|';
+  animation: blink 0.7s infinite;
+  margin-left: 2px;
+  color: #ffffff;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* فیکس پرش در موبایل */
+@media (max-width: 991px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+  
+  .main {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
+</style>
+
+<script>
+// Simple typing effect without any library
+(function() {
+  // اطمینان از اینکه فقط یک بار اجرا بشه
+  if (window.typingInitialized) return;
+  window.typingInitialized = true;
+
+  const words = ['Designer', 'Developer', 'Freelancer', 'Photographer'];
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const typedElement = document.getElementById('typed-text');
+  
+  if (!typedElement) return;
+
+  function type() {
+    const currentWord = words[wordIndex];
+    
+    if (isDeleting) {
+      typedElement.textContent = currentWord.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      typedElement.textContent = currentWord.substring(0, charIndex + 1);
+      charIndex++;
+    }
+
+    let typeSpeed = isDeleting ? 50 : 100;
+
+    if (!isDeleting && charIndex === currentWord.length) {
+      typeSpeed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+      typeSpeed = 500;
+    }
+
+    setTimeout(type, typeSpeed);
+  }
+
+  // Start typing after page loads
+  setTimeout(type, 1000);
+})();
+
+// Mobile menu
+(function() {
+  // اطمینان از اینکه فقط یک بار اجرا بشه
+  if (window.mobileMenuInitialized) return;
+  window.mobileMenuInitialized = true;
+
+  const toggle = document.querySelector('.header-toggle');
+  const header = document.getElementById('header');
+  
+  if (!toggle || !header) return;
+  
+  toggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    header.classList.toggle('mobile-nav-active');
+    document.body.style.overflow = header.classList.contains('mobile-nav-active') ? 'hidden' : '';
+  });
+
+  // Close menu on link click
+  document.querySelectorAll('#header .navmenu a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      // اگر لینک # باشه، از reload جلوگیری کن
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        header.classList.remove('mobile-nav-active');
+        document.body.style.overflow = '';
+        
+        // اسکرول به section مورد نظر
+        const targetId = href.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        header.classList.remove('mobile-nav-active');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+})();
+</script>
 {% endblock %}
