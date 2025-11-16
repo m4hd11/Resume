@@ -1,79 +1,78 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
-from django.urls import reverse
+from django.urls import reverse_lazy
+from .forms import SignUpForm, LoginForm, CustomPasswordResetForm, CustomSetPasswordForm
 
-# Create your views here.
 
-User = get_user_model()
-
-def login_View(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-
-    next_url = request.POST.get('next') or request.GET.get('next') or '/'
-
-    if request.method == "POST":
-        username_or_email = request.POST.get('username')
-        password = request.POST.get('password')
-        try:
-            user_obj = User.objects.get(username=username_or_email)
-        except User.DoesNotExist:
-            try:
-                user_obj = User.objects.get(email=username_or_email)
-            except User.DoesNotExist:
-                user_obj = None
-
-        if user_obj:
-            user = authenticate(request, username=user_obj.username, password=password)
-            if user:
-                login(request, user)
-                return redirect(next_url)
-
-        context = {
-            'form': AuthenticationForm(request=request),
-            'error': 'Invalid Username/Email or Password',
-            'next': next_url
-        }
-        return render(request, 'accounts/login.html', context)
-
-    else:
-        form = AuthenticationForm()
-        context = {'form': form, 'next': next_url}
-        return render(request, 'accounts/login.html', context)
+class CustomLoginView(LoginView):
+    template_name = 'accounts/login.html'
+    form_class = LoginForm
+    redirect_authenticated_user = True
     
-@login_required
-def logout_View(request):
-    logout(request)
-    return redirect('/')
+    def get_success_url(self):
+        return reverse_lazy('home')  # Change 'home' to your desired redirect URL
+    
+    def form_invalid(self, form):
+        messages.error(self.request, 'Invalid username or password. Please try again.')
+        return super().form_invalid(form)
 
-def signup_View(request):
+
+def signup_view(request):
     if request.user.is_authenticated:
-        return redirect('/')
-
-    if request.method == "POST":
-        username = request.POST.get('username').lower()  # تبدیل به lowercase
-        email = request.POST.get('email').lower()        # تبدیل به lowercase
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-
-        # چک کردن پسوردها
-        if password1 != password2:
-            messages.error(request, "Passwords do not match!")
-        elif len(password1) < 8:
-            messages.error(request, "Password too weak! Minimum 8 characters.")
-        elif User.objects.filter(username__iexact=username).exists():
-            messages.error(request, "Username already exists!")
-        elif User.objects.filter(email__iexact=email).exists():
-            messages.error(request, "Email already exists!")
+        return redirect('home')  # Change 'home' to your desired redirect URL
+    
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, 'Account created successfully! Welcome aboard.')
+            return redirect('home')  # Change 'home' to your desired redirect URL
         else:
-            # ساخت کاربر
-            user = User.objects.create_user(username=username, email=email, password=password1)
-            return redirect('accounts:login')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
+    else:
+        form = SignUpForm()
+    
+    return render(request, 'accounts/signup.html', {'form': form})
 
-    form = UserCreationForm()  # فقط برای قالب
-    context = {'form': form}
-    return render(request, 'accounts/signup.html', context)
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'accounts/password_reset_form.html'
+    form_class = CustomPasswordResetForm
+    email_template_name = 'accounts/password_reset_email.html'
+    success_url = reverse_lazy('accounts:password_reset_done')
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Password reset email has been sent. Please check your inbox.')
+        return super().form_valid(form)
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy('accounts:password_reset_complete')
+    token_generator = default_token_generator  # اضافه کردن این خط
+    
+    def dispatch(self, *args, **kwargs):
+        # برای دیباگ - ببینیم چه اتفاقی داره میفته
+        from django.utils import timezone
+        print(f"Reset link accessed at: {timezone.now()}")
+        return super().dispatch(*args, **kwargs)
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Your password has been reset successfully!')
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, error)
+        return super().form_invalid(form)
