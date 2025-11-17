@@ -13,7 +13,7 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
     
     def get_success_url(self):
-        return reverse_lazy('home')  # Change 'home' to your desired redirect URL
+        return reverse_lazy('website:index')  # Change 'home' to your desired redirect URL
     
     def form_invalid(self, form):
         messages.error(self.request, 'Invalid username or password. Please try again.')
@@ -71,8 +71,6 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         messages.success(self.request, 'Your password has been reset successfully!')
         return super().form_valid(form)
     
-    def form_invalid(self, form):
-        for field, errors in form.errors.items():
-            for error in errors:
-                messages.error(self.request, error)
-        return super().form_invalid(form)
+def form_invalid(self, form):
+    messages.error(self.request, 'Invalid username or password. Please try again.')
+    return self.render_to_response(self.get_context_data(form=form))

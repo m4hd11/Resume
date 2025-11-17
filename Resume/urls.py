@@ -31,7 +31,7 @@ sitemaps = {
 }
 
 
-handler404 = 'website.views.coming_soon'
+handler404 = 'website.views.custom_404_view'
 
 urlpatterns = [
         path('admin/', admin.site.urls),

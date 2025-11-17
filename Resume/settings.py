@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
     'accounts.apps.AccountsConfig',
+    'debug_toolbar',
 ]
 
 
@@ -61,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'website.middleware.ComingSoonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'Resume.urls'
@@ -144,9 +145,7 @@ PASSWORD_RESET_TIMEOUT = 120  # seconds (default is 2 minutes)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+
 
 # Make CAPTCHA case-insensitive
 CAPTCHA_TEST_MODE = False  # فقط برای تست False بماند
