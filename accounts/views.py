@@ -22,7 +22,7 @@ class CustomLoginView(LoginView):
 
 def signup_view(request):
     if request.user.is_authenticated:
-        return redirect('home')  # Change 'home' to your desired redirect URL
+        return redirect('website:index')  # Change 'home' to your desired redirect URL
     
     if request.method == 'POST':
         form = SignUpForm(request.POST)
