@@ -33,7 +33,7 @@ def signup_view(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, 'Account created successfully! Welcome aboard.')
-            return redirect('home')  # Change 'home' to your desired redirect URL
+            return redirect('website:index')  # Change 'home' to your desired redirect URL
         else:
             for field, errors in form.errors.items():
                 for error in errors:
